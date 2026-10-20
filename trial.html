@@ -8,9 +8,9 @@
   :root{--ink:#12161c;--muted:#5b6673;--line:#d8dde3;--paper:#fbfaf7;--accent:#0b3d6b;--pass:#1d7a4c;}
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Georgia,'Times New Roman',serif;}
-  .wrap{max-width:880px;margin:0 auto;padding:52px 28px 88px;}
+  .wrap{max-width:900px;margin:0 auto;padding:52px 28px 88px;}
   h1{font-size:2rem;line-height:1.15;margin:0 0 12px;letter-spacing:-.01em}
-  h2{font-size:1.1rem;margin:42px 0 10px;letter-spacing:.02em;text-transform:uppercase;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--accent)}
+  h2{font-size:1.1rem;margin:44px 0 10px;letter-spacing:.02em;text-transform:uppercase;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--accent)}
   p{margin:0 0 14px}
   .lede{font-size:1.12rem;color:#2a333d;max-width:44em}
   .rule{height:1px;background:var(--line);margin:34px 0}
@@ -23,7 +23,12 @@
   .note{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:20px 0;color:#39424d;font-size:.95rem}
   .ok{color:var(--pass);font-weight:600}
   .hi{font-size:1.15rem}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+  figure{margin:0;border:1px solid var(--line);background:#fff;padding:14px}
+  figure img{width:100%;height:auto;display:block}
+  figcaption{font-size:.82rem;color:var(--muted);margin-top:10px;line-height:1.4}
   footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+  @media (max-width:700px){.grid{grid-template-columns:1fr}.wrap{padding:36px 18px 60px}h1{font-size:1.6rem}}
 </style>
 </head>
 <body>
@@ -36,64 +41,88 @@
 
   <div class="rule"></div>
 
-  <h2>1. Built and verified, not promised</h2>
+  <h2>1. Seven figures, built and verified</h2>
+
+  <p>Not mock-ups. Each of these is generated from a description of the figure's
+  meaning, and each was checked by <strong>recomputing every label's region from the
+  finished SVG</strong> &mdash; not by trusting the code that placed it.</p>
+
+  <div class="grid">
+    <figure>
+      <img src="figure-040.svg" alt="Non-Verbal Venn, four shapes, nineteen numbers, four leader lines">
+      <figcaption><strong>Non-Verbal Venn 040</strong><br>4 shapes, 19 numbers, 4 leader lines.<br>Every number in its region, min clearance 7.8 px.</figcaption>
+    </figure>
+    <figure>
+      <img src="figure-001.svg" alt="Non-Verbal Venn, three circles">
+      <figcaption><strong>Non-Verbal Venn 001</strong><br>3 circles, 7 numbers, 3 leader lines.<br>Set hierarchy verified: A &gt; AB &gt; ABC.</figcaption>
+    </figure>
+    <figure>
+      <img src="figure-syllogism-003.svg" alt="Syllogism with labels inside regions">
+      <figcaption><strong>Syllogism 003</strong><br>Labels inside their own regions.<br>Clearance measured on real glyph outlines, not text boxes.</figcaption>
+    </figure>
+    <figure>
+      <img src="figure-logical-007.svg" alt="Logical Venn, three nested circles">
+      <figcaption><strong>Logical Venn 007</strong><br>Three nested rings.<br>The number in a ring stays out of the inner circle.</figcaption>
+    </figure>
+  </div>
 
   <table>
-    <thead><tr><th>Type</th><th>Figures</th><th>Numbers placed</th><th>Labels</th><th>Deterministic</th></tr></thead>
+    <thead><tr><th>Type</th><th>Figures</th><th>Placed</th><th>Deterministic</th></tr></thead>
     <tbody>
-      <tr><td>Non-Verbal Venn</td><td>001, 040</td><td class="ok">19/19, 7/7</td><td class="ok">4/4 and 3/3 with leader lines</td><td class="ok">yes</td></tr>
-      <tr><td>Logical Venn</td><td>004, 007, 008, 041</td><td class="ok">3/3 each</td><td>n/a</td><td class="ok">yes</td></tr>
-      <tr><td>Syllogism</td><td>003</td><td class="ok">4/4</td><td class="ok">4/4 inside regions</td><td class="ok">yes</td></tr>
+      <tr><td>Non-Verbal Venn</td><td>001, 040</td><td class="ok">7/7, 19/19</td><td class="ok">yes</td></tr>
+      <tr><td>Logical Venn</td><td>004, 007, 008, 041</td><td class="ok">3/3 each</td><td class="ok">yes</td></tr>
+      <tr><td>Syllogism</td><td>003</td><td class="ok">4/4</td><td class="ok">yes</td></tr>
     </tbody>
   </table>
-
-  <p>Every figure is checked by <strong>recomputing each label's region from the finished SVG</strong>,
-  not by trusting the code that placed it. Determinism is checked by rendering twice and comparing
-  sha256 - the same bytes, every run.</p>
+  <p>Determinism means rendering twice and comparing sha256 &mdash; the same bytes,
+  every run. The previews above are rounded to whole pixels to keep this page light;
+  the delivered files carry full precision.</p>
 
   <h2>2. Label clearance: the algorithm</h2>
-  <p>Each primitive exposes a signed distance: a circle returns <code>|dist(centre) - r|</code>,
+  <p>Each primitive exposes a signed distance: a circle returns <code>|dist(centre) &minus; r|</code>,
   a segment the point-to-segment distance, a polygon the minimum over its edges.</p>
-  <p>For every label I generate candidate positions and score each one against <strong>every stroke
+  <p>For every label I generate candidate positions and score each against <strong>every stroke
   and every other label</strong>. Clearance is measured on the <strong>real glyph outlines</strong>
-  (fontTools path bounds), never estimated text boxes - that is the mistake that lets a test pass
-  while the figure still looks crowded.</p>
-  <p>If no candidate fits, the label moves outside with a short leader line. The line's path is tested
+  (fontTools path bounds), never estimated text boxes &mdash; that is the mistake that lets a
+  test pass while the figure still looks crowded.</p>
+  <p>If no candidate fits, the label moves outside with a leader line. The line's path is tested
   too: if it would cross another label, it is not drawn.</p>
 
   <div class="note">
     <strong>Why I trust the tests.</strong> An earlier version passed its own clearance test while
-    placing a label inside the wrong shape, and another passed with a label 135 px from what it named.
-    Both were caught by measuring, not by looking. The clearance test now includes a counter-test:
-    move a label one pixel toward a line and it must fail. A test that cannot fail is not a test.
+    placing a label inside the wrong shape, and another passed with a label 135 px from what it
+    named. Both were caught by measuring, not by looking. The clearance test now includes a
+    counter-test: move a label one pixel toward a line and it must fail. A test that cannot fail
+    is not a test.
   </div>
 
   <h2>3. Devanagari, end to end</h2>
   <p class="hi">क्षेत्र &nbsp; क्रम &nbsp; पहाड़ &nbsp; मीटर &nbsp; सेमी</p>
   <p><code>uharfbuzz</code> shapes the text using the font's GSUB/GPOS tables; <code>fontTools</code>
   converts each glyph to outlines. The SVG carries <strong>paths</strong>, never <code>&lt;text&gt;</code>,
-  so the output does not depend on the reader having the font installed. PNG uses <code>skia-python</code>
-  with the glyphs already shaped.</p>
+  so the output does not depend on the reader having the font installed. PNG uses
+  <code>skia-python</code> with the glyphs already shaped.</p>
   <p>Evidence: क्षेत्र (7 characters) produces 3 glyphs, including <code>uni0915094D0937</code> and
-  <code>uni0924094D0930</code>. The <code>094D</code> is the virama - the signature of a real ligature.
-  क्रम produces 2 glyphs. पहाड़ produces <code>uni095C</code>.</p>
+  <code>uni0924094D0930</code>. The <code>094D</code> is the virama &mdash; the signature of a real
+  ligature. क्रम produces 2 glyphs. पहाड़ produces <code>uni095C</code>.</p>
 
   <h2>4. Libraries and byte-identical output</h2>
   <p><code>uharfbuzz</code>, <code>fontTools</code>, <code>shapely</code>, <code>skia-python</code>,
-  <code>pydantic</code>, <code>fastapi</code>, <code>pytest</code>. All MIT/BSD/Apache - no GPL or AGPL.
-  PyMuPDF was discarded specifically because it is AGPL.</p>
+  <code>pydantic</code>, <code>fastapi</code>, <code>pytest</code>. All MIT/BSD/Apache &mdash;
+  no GPL or AGPL. PyMuPDF was discarded specifically because it is AGPL.</p>
   <p>Byte-identical because: floats formatted at fixed precision; stable write order (no unsorted
-  dict/set iteration); no timestamps or random IDs inside the file; fonts pinned in the repository and
-  used by path, not by system lookup. Verified by rendering twice and comparing sha256.</p>
+  dict/set iteration); no timestamps or random IDs inside the file; fonts pinned in the repository
+  and used by path, not by system lookup.</p>
 
   <h2>5. What the trial buys</h2>
   <p>Two things are not finished, and I would rather say so than be caught by them:</p>
-  <p><strong>Configurations I have not seen.</strong> Two Non-Verbal Venn samples are done; the other 51
-  have shapes and overlaps I cannot rehearse against. The pipeline is built, but each configuration
-  may reveal a new constraint - the way the nested rings did, and the way the triangle's apex did.</p>
-  <p><strong>Hindi layout.</strong> The shaping is proven end to end. The <em>layout</em> in Hindi has
-  not been tested: Devanagari labels are wider and taller than English, so positions have to be
-  re-solved per language rather than translated.</p>
+  <p><strong>Configurations I have not seen.</strong> Two Non-Verbal Venn samples exist in the
+  material I have; both are done. Your other 51 have shapes and overlaps I cannot rehearse
+  against. The pipeline is built, but each configuration may reveal a new constraint &mdash;
+  the way the nested rings did, and the way the triangle's apex did.</p>
+  <p><strong>Hindi layout.</strong> The shaping is proven end to end. The <em>layout</em> in Hindi
+  has not been tested: Devanagari labels are wider and taller than English, so positions have
+  to be re-solved per language rather than translated.</p>
 
   <h2>6. Delivered</h2>
   <ul>
@@ -106,13 +135,13 @@
   </ul>
 
   <h2>7. After the trial</h2>
-  <p>If accepted, M1 follows: 134 figures across Logical Venn, Non-Verbal Venn, Syllogism and Triangles,
-  plus the geometry library, the API with a key, Docker and the review page. I would quote that
-  separately once the risks above are retired, because the trial exists precisely to price the rest
-  honestly.</p>
+  <p>If accepted, M1 follows: 134 figures across Logical Venn, Non-Verbal Venn, Syllogism and
+  Triangles, plus the geometry library, the API with a key, Docker and the review page. I would
+  quote that separately once the risks above are retired, because the trial exists precisely to
+  price the rest honestly.</p>
 
   <footer>
-    Source: <a href="https://github.com/ojottave27/print-readiness">github.com/ojottave27/print-readiness</a>
+    Source and tests: <a href="https://github.com/ojottave27/print-readiness">github.com/ojottave27/print-readiness</a>
   </footer>
 
 </div>
