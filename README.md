@@ -11,9 +11,9 @@ Automated mesh verification for print shops, STL sellers and anyone printing thi
 A figure rebuilt from a description of its *meaning*, not from coordinates: four shapes (circle, two rectangles, triangle), nineteen numbers, every one placed by code and validated in the correct region with at least 6 px clearance to every boundary.
 
 - **SVG:** [figure-040.svg](figure-040.svg)
-- **Source geometry:** [venn040.py](venn040.py) (not yet committed - see note below)
+- **Generator:** [venn040.py](venn040.py)
 
-The check that makes this worth something: it computes each number's actual region from the geometry and fails if a number lands in the wrong one or gets closer than the threshold to any edge. Moving a number a few pixels makes it fail, so it is not a rubber stamp.
+The check that makes this worth something: `venn040.py` computes each number's actual region from the geometry and fails if a number lands in the wrong one, or gets closer than the threshold to any edge, or sits too near another number. Moving a number a few pixels makes it fail, so it is not a rubber stamp.
 
 ---
 
