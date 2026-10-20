@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="300" viewBox="0 0 480 300">
+<rect width="100%" height="100%" fill="white"/>
+<g fill="none" stroke="#231F20" stroke-width="1">
+<circle cx="240" cy="100" r="78"/>
+<rect x="150" y="72" width="180" height="66"/>
+<rect x="108" y="118" width="244" height="66"/>
+<polygon points="240,32 170,240 310,240"/>
+</g>
+<g font-family="Liberation Serif, Times New Roman, serif" font-size="13" fill="#231F20" text-anchor="middle">
+<text x="296" y="60">18</text>
+<text x="240" y="65">2</text>
+<text x="156" y="90">6</text>
+<text x="180" y="95">5</text>
+<text x="240" y="95">4</text>
+<text x="300" y="95">7</text>
+<text x="156" y="108">12</text>
+<text x="160" y="133">10</text>
+<text x="180" y="133">3</text>
+<text x="240" y="133">8</text>
+<text x="300" y="133">6</text>
+<text x="322" y="135">5</text>
+<text x="170" y="160">8</text>
+<text x="138" y="167">12</text>
+<text x="336" y="160">9</text>
+<text x="210" y="150">3</text>
+<text x="270" y="150">2</text>
+<text x="220" y="203">3</text>
+<text x="256" y="210">17</text>
+</g>
+<g stroke="#231F20" stroke-width="1" fill="none">
+<line x1="338" y1="58" x2="314" y2="67"/>
+<path d="M 321.9 68.1 L 314 67 L 319.2 61.0" fill="none"/>
+<line x1="138" y1="100" x2="150" y2="100"/>
+<path d="M 143.0 96.2 L 150 100 L 143.0 103.8" fill="none"/>
+<line x1="366" y1="150" x2="352" y2="150"/>
+<path d="M 359.0 153.8 L 352 150 L 359.0 146.2" fill="none"/>
+<line x1="318" y1="262" x2="300" y2="240"/>
+<path d="M 301.1 247.9 L 300 240 L 307.3 243.3" fill="none"/>
+</g>
+<g font-family="Liberation Serif, Times New Roman, serif" font-size="15" fill="#231F20">
+<text x="344" y="63" text-anchor="start">Student</text>
+<text x="132" y="105" text-anchor="end">Dancer</text>
+<text x="372" y="155" text-anchor="start">Boys</text>
+<text x="322" y="270" text-anchor="start">Cricket player</text>
+</g>
+</svg>
