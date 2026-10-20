@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paid trial - 5 Non-Verbal Venn figures</title>
+<style>
+  :root{--ink:#12161c;--muted:#5b6673;--line:#d8dde3;--paper:#fbfaf7;--pass:#1d7a4c;--accent:#0b3d6b;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Georgia,'Times New Roman',serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:52px 28px 88px;}
+  h1{font-size:2rem;line-height:1.15;margin:0 0 12px;letter-spacing:-.01em}
+  h2{font-size:1.1rem;margin:42px 0 10px;letter-spacing:.02em;text-transform:uppercase;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--accent)}
+  h3{font-size:1rem;margin:26px 0 8px;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+  p{margin:0 0 14px}
+  .lede{font-size:1.12rem;color:#2a333d;max-width:44em}
+  .rule{height:1px;background:var(--line);margin:34px 0}
+  code{font-family:ui-monospace,Consolas,monospace;font-size:.88em;background:#f1efea;padding:1px 4px}
+  pre{background:#fff;border:1px solid var(--line);padding:16px;overflow-x:auto;font-size:.82rem;line-height:1.45}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.92rem}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:6px}
+  .note{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:20px 0;color:#39424d;font-size:.95rem}
+  .hi{font-size:1.15rem}
+  footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Paid trial &mdash; 5 Non-Verbal Venn figures</h1>
+  <p class="lede">5 figures from your reference set, of your choice. SVG and PNG, English and Hindi.
+  Source, tests and a review page.</p>
+  <p><strong>Price:</strong> USD 600 &nbsp;&middot;&nbsp; <strong>Duration:</strong> 3 weeks</p>
+
+  <div class="rule"></div>
+
+  <h2>1. Already built and verified</h2>
+
+  <h3>Devanagari, end to end</h3>
+  <p><code>uharfbuzz</code> does the shaping using the font's GSUB/GPOS tables; <code>fontTools</code> converts each glyph
+  to outlines. The SVG carries <strong>paths</strong>, never <code>&lt;text&gt;</code>, so the output does not depend on the reader
+  having the font installed. PNG uses <code>skia-python</code> with the glyphs already shaped.</p>
+  <p class="hi">क्षेत्र &nbsp; क्रम &nbsp; पहाड़ &nbsp; मीटर &nbsp; सेमी</p>
+  <p>Evidence, not a claim: क्षेत्र (7 characters) produces 3 glyphs, including <code>uni0915094D0937</code> and
+  <code>uni0924094D0930</code>. The <code>094D</code> is the virama &mdash; the signature of a real ligature. क्रम produces
+  2 glyphs. पहाड़ produces <code>uni095C</code>.</p>
+  <p>Byte-identical on repeat runs, for both SVG and PNG (equal sha256). MIT/BSD dependencies only:
+  uharfbuzz, fontTools, skia-python, Pillow, and Noto Serif Devanagari under the SIL OFL. No GPL or AGPL
+  anywhere &mdash; PyMuPDF was discarded specifically because it is AGPL.</p>
+
+  <h3>Figure 001 &mdash; three circles, solved by template</h3>
+  <p>7 seconds, correct set hierarchy: each circle 7333&nbsp;px&sup2;, each pairwise intersection 2101&nbsp;px&sup2;,
+  the triple 1668&nbsp;px&sup2;. A &lt; AB &lt; ABC holds, and the proportions are those of a real Venn rather than a
+  collapsed one.</p>
+
+  <h3>Figure 040 &mdash; four mixed shapes</h3>
+  <p>Rebuilt from computed geometry with all 19 numbers validated in their correct region at 6&nbsp;px clearance,
+  by a check that fails when a number is moved.</p>
+  <ul>
+    <li><a href="figure-040.svg">figure-040.svg</a></li>
+    <li><a href="venn040.py">venn040.py</a> (generator)</li>
+  </ul>
+
+  <h2>2. What this trial buys</h2>
+  <p>Two things are not finished, and I would rather say so than be caught by them:</p>
+  <p><strong>Generic label placement with clearance measured on real glyph outlines.</strong> My current 040 puts every
+  number in the right region, but not always far enough from the lines. Region membership is not the same test as
+  clearance, and I will not ship the first and call it the second.</p>
+  <p><strong>Generic shape placement for mixed shapes.</strong> The three-circle case has a canonical configuration that
+  scales. Four mixed shapes do not, and the general case is a constraint problem I have not finished solving.</p>
+  <div class="note">
+    Those are precisely the two risks that decide whether M1 is achievable. Three weeks on five figures of your
+    choosing is a cheap way to find out, and it is money rather than a favour.
+  </div>
+
+  <h2>3. Delivered at the end of the trial</h2>
+  <ul>
+    <li>5 figures of your choice, SVG and PNG</li>
+    <li>English and Hindi versions where you want them</li>
+    <li>An automated clearance test measured on real glyph outlines, which fails when a label is moved closer than the threshold</li>
+    <li>A determinism test proving repeat runs are byte-identical</li>
+    <li>Source and tests, delivered as a zip</li>
+    <li>A short review page with your reference beside my output</li>
+  </ul>
+
+  <h2>4. Figure 040 in JSON</h2>
+  <p>The shape of the input the renderer takes. It states meaning only &mdash; no coordinates.</p>
+<pre>{
+  "type": "venn.nonverbal",
+  "lang": "en",
+  "shapes": [
+    {"id": "S", "kind": "circle", "label": "Student"},
+    {"id": "D", "kind": "rect", "label": "Dancer"},
+    {"id": "B", "kind": "rect", "label": "Boys"},
+    {"id": "C", "kind": "triangle", "label": "Cricket player"}
+  ],
+  "regions": [
+    {"in": ["S"], "value": [18]},
+    {"in": ["S", "C"], "value": [2]},
+    {"in": ["D"], "value": [6, 12]},
+    {"in": ["D", "S"], "value": [5, 7]},
+    {"in": ["D", "S", "C"], "value": [4]},
+    {"in": ["D", "B"], "value": [10, 5]},
+    {"in": ["D", "B", "S"], "value": [3, 6]},
+    {"in": ["D", "B", "S", "C"], "value": [8]},
+    {"in": ["B"], "value": [8, 12, 9]},
+    {"in": ["B", "S", "C"], "value": [3, 2]},
+    {"in": ["C"], "value": [3, 17]}
+  ],
+  "labels": "outside-with-leader"
+}</pre>
+  <p>The renderer decides where the shapes go, how large they are, and where inside each region the numbers fit.</p>
+
+  <h2>5. After the trial</h2>
+  <p>If it is accepted, M1 follows: 134 figures across Logical Venn, Non-Verbal Venn, Syllogism and Triangles,
+  plus the geometry library, the API with a key, Docker and the review page. I would quote that separately once
+  the two risks above are retired, because the trial exists precisely to price the rest honestly.</p>
+
+  <footer>
+    Source repository: <a href="https://github.com/ojottave27/print-readiness">github.com/ojottave27/print-readiness</a>
+  </footer>
+
+</div>
+</body>
+</html>
