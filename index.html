@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Automated 3D print readiness report: eight independent mesh checks with measured values and the exact fix.">
+<title>3D Print Readiness Report</title>
+<style>
+  :root{
+    --ink:#12161c; --muted:#5b6673; --line:#d8dde3; --paper:#fbfaf7;
+    --pass:#1d7a4c; --warn:#9a6b00; --fail:#a32020; --accent:#0b3d6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.55 Georgia,'Times New Roman',serif;}
+  .wrap{max-width:900px;margin:0 auto;padding:56px 28px 88px;}
+  h1{font-size:2.15rem;line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+  h2{font-size:1.2rem;margin:44px 0 10px;letter-spacing:.02em;text-transform:uppercase;
+     font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--accent)}
+  p{margin:0 0 14px}
+  .lede{font-size:1.2rem;color:#2a333d;max-width:44em}
+  .rule{height:1px;background:var(--line);margin:38px 0}
+  .mono{font-family:ui-monospace,Consolas,'Courier New',monospace;font-size:.9em}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.92rem}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:.78rem;
+     text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+  .pass{color:var(--pass);font-weight:600}
+  .warn{color:var(--warn);font-weight:600}
+  .fail{color:var(--fail);font-weight:600}
+  .num{font-family:ui-monospace,Consolas,monospace;font-size:.88em}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  .card{border:1px solid var(--line);background:#fff;padding:20px 22px}
+  .card h3{margin:0 0 8px;font-size:1.02rem;
+     font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif}
+  .card p{margin:0;font-size:.93rem;color:#39424d}
+  .note{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:22px 0;
+     color:#39424d;font-size:.95rem}
+  ul{margin:0 0 14px;padding-left:22px}
+  li{margin-bottom:7px}
+  footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+     font-size:.85rem;color:var(--muted)}
+  @media (max-width:700px){.cards{grid-template-columns:1fr}.wrap{padding:36px 18px 60px}h1{font-size:1.65rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Are your files ready to print?</h1>
+  <p class="lede">Send me your STLs and I return, file by file, a verdict with the measured value
+  and the exact fix. Not an opinion: every line of the report is a measurement.</p>
+
+  <div class="rule"></div>
+
+  <h2>The problem</h2>
+  <p>A failed print costs filament, machine hours and, above all, the deadline you promised the client.
+  In most cases the cause is already in the file: inverted normals, walls too thin,
+  loose fragments, an open surface. The slicer accepts the file and the problem only shows up
+  ten hours later.</p>
+  <p>The report answers the questions a print brief asks, with a number behind each one.</p>
+
+  <h2>What you get</h2>
+  <p>One page per batch, and per file a table like this (real data from a
+  1,409,534-face part):</p>
+
+  <table>
+    <thead><tr><th>Check</th><th>Result</th><th>Measured</th></tr></thead>
+    <tbody>
+      <tr><td>Closed and manifold</td><td class="pass">pass</td><td class="num">0 boundary edges, 0 non-manifold</td></tr>
+      <tr><td>Encloses a volume</td><td class="pass">pass</td><td class="num">142,690.5 mm&sup3;</td></tr>
+      <tr><td>Normals point outward</td><td class="pass">pass</td><td class="num">positive signed volume</td></tr>
+      <tr><td>No loose fragments</td><td class="pass">pass</td><td class="num">1 component</td></tr>
+      <tr><td>No self-intersections</td><td class="pass">pass</td><td class="num">no collision</td></tr>
+      <tr><td>Wall thickness</td><td class="pass">pass</td><td class="num">median 6.78 mm &middot; p95 21.26 mm</td></tr>
+      <tr><td>Centre of mass over the base</td><td class="pass">pass</td><td class="num">12.74 mm off centre &middot; 35.0 mm margin</td></tr>
+      <tr><td>Expected scale</td><td class="warn">did not run</td><td class="num">expected height not supplied</td></tr>
+    </tbody>
+  </table>
+
+  <p>When something fails, the report says what it means and what to do. Example:</p>
+  <table>
+    <tbody>
+      <tr><td style="width:34%"><strong>Normals</strong> <span class="fail">failed</span></td>
+          <td>Inverted or inconsistent normals between faces.<br>
+          <strong>Fix:</strong> recalculate normals outward (Blender: Shift+N with everything selected).</td></tr>
+      <tr><td><strong>Scale</strong> <span class="fail">failed</span></td>
+          <td>Measured height 0.20 mm against 20 mm expected.<br>
+          <strong>Fix:</strong> check the export units (mm vs cm vs inches).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>One rule that matters to the client:</strong> when a check cannot run, the report says
+    &ldquo;did not run&rdquo; and never assumes it passed. A file with missing checks never shows up as
+    &ldquo;ready&rdquo;.
+  </div>
+
+  <h2>Two services</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>1. Readiness report</h3>
+      <p>You send a folder of STLs. You get the verdict per file, the measured values and the
+      fix for every failure. Use it to launch a product, accept third-party work, or sign off a
+      batch before it reaches the machine.</p>
+    </div>
+    <div class="card">
+      <h3>2. Clearance calibration</h3>
+      <p>You print a hole-and-pin coupon that I supply, measure it and send me the numbers.
+      I then hand you the parts with the clearance corrected for <em>your</em> machine &mdash;
+      because your printer does not err the same way as the one next door.</p>
+    </div>
+  </div>
+
+  <h2>What this service does not do</h2>
+  <p>I say it before you start: I do not repair the mesh automatically, I do not do hollowing,
+  I do not generate supports and I do not quote printing jobs. I diagnose precisely and tell you
+  exactly what to fix &mdash; we fix it together, or I show you how in two minutes
+  in Blender. I would rather lose a sale than promise something that does not exist yet.</p>
+
+  <h2>How to start</h2>
+  <p>Send me <strong>one</strong> file, ideally one that has already given you trouble. I return the
+  report at no cost. If the diagnosis is useful to you, we agree on the rest.</p>
+
+  <footer>
+    Report generated from real measurement: a 1,409,534-face mesh analysed in
+    294&nbsp;s (3 files). Checks are independent of each other; any that does not run is
+    declared, never assumed to pass.
+  </footer>
+
+</div>
+</body>
+</html>
